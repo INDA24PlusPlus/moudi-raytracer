@@ -2,9 +2,11 @@
 
 !includes/
 !includes/*
+!includes/**
 
 !src/
 !src/*
+!src/**
 
 !CMakeLists.txt
 !start.sh

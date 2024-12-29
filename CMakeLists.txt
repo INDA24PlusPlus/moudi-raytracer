@@ -5,14 +5,14 @@ project(Compiler VERSION 1.0.0)
 set(CMAKE_ENABLE_EXPORTS TRUE)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_C_FLAGS_DEBUG "-pg -g")
-set(CMAKE_C_FLAGS_RELEASE "-Wall")
+set(CMAKE_C_FLAGS_DEBUG "-pg -g -lm")
+set(CMAKE_C_FLAGS_RELEASE "-Wall -lm")
 
 message(STATUS "FLAGS: ${CMAKE_C_FLAGS_DEBUG}")
 
 add_subdirectory("submodules/String-Formatter")
 
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c)
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/**.c)
 
 message(STATUS "SOURCES: ${SOURCES}")
 
@@ -24,6 +24,7 @@ add_definitions(-DCMAKE_EXPORT_COMPILE_COMMANDS=ON)
 # Include header files
 target_include_directories(compiler PRIVATE 
 	${CMAKE_CURRENT_SOURCE_DIR}/includes
+	${CMAKE_CURRENT_SOURCE_DIR}/includes/objects
     ${CMAKE_CURRENT_SOURCE_DIR}/submodule/String-Formatter/include)
 
 # Link libraries
