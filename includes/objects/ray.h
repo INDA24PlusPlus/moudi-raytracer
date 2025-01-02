@@ -3,7 +3,14 @@
 #include "common.h"
 
 typedef struct ray {
-    Vec3 dir;
+    Vector3 position;
+    Vector3 direction;
+
+    Vector3 color;
     int depth;
-    Vec3 acc_color;
-} Ray;
+} Ray_t;
+
+Ray_t new_ray(Vector3 start, Vector3 dir);
+
+Vector3 ray_at(Ray_t ray, double t);
+Vector3 ray_color(Ray_t ray);

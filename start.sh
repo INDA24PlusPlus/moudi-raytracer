@@ -21,11 +21,11 @@ set -e
 if [ "$1" == "perf" ] ; then  # perf test
     rm callgrind.* &> /dev/null # rm callgrind.* > /dev/null 2>&1
     shift 1
-    valgrind --tool=callgrind --collect-systime=usec ./build/compiler "$@"
+    valgrind --tool=callgrind --collect-systime=usec ./build/raytracer "$@"
     qcachegrind
 elif [ "$1" == "mem" ] ; then # memory test
     shift 1
-    valgrind ./build/compiler "$@"
+    valgrind ./build/raytracer "$@"
 else
-	./build/compiler "$@"
+	./build/raytracer "$@"
 fi
