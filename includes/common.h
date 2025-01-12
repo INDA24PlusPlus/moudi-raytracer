@@ -1,16 +1,24 @@
 #pragma once
 
 #include <stdlib.h>
+#include <stddef.h>
 #include <raylib.h>
 #include <raymath.h>
+
 #include "fmt.h"
+#include "vec.h"
+
 #include "math.h"
-#include "stddef.h"
 
-#define IMAGE_HEIGHT 720
-#define IMAGE_WIDTH 1080
+#define IMAGE_HEIGHT 450
+#define IMAGE_WIDTH 800
+#define SAMPLES_PER_PIXEL 200
+#define MAX_RAY_COLLISIONS 50
+#define T_MIN_CUTOFF 0.001
 
-#define Vec3(x, y, z) ((Vector3) {x, y, z})
-#define ExpandVec3(vec) (vec).x, (vec).y, (vec).z
+#define COMPOSE(f, g) f(g)
+#define DEGREE_TO_RADIAN(d) (M_PI * d / 180.0)
+#define LINEAR_TO_GAMMA(d) (255.0 * ((d > 0.0) ? (sqrtf(d)) : (0)))
 
-#define DEFAULT_VEC Vec3(0.0, 0.0, 1.0)
+#define RANDOM_DOUBLE() (rand() / (double) RAND_MAX)
+#define RANDOM_RANGE(min, max) (min + (RANDOM_DOUBLE() * (max - min)))

@@ -1,7 +1,10 @@
 #include "sphere.h"
+
 #include "common.h"
+#include "material.h"
 #include "ray.h"
 #include "scene.h"
+#include "vec.h"
 #include <raymath.h>
 
 Sphere new_sphere(Vector3 position, double radius) {
@@ -16,42 +19,38 @@ void set_sphere_color(Sphere * sphere, Vector3 color) {
     sphere->color = color;
 }
 
-double sphere_intersects_ray(Sphere sphere, Ray_t * ray) {
-    
-    /* println("Sphere: [{3d:, }], Ray: [{3d:, }] + t[{3d:, }]",  */
-    /*         ExpandVec3(sphere.position), */
-    /*         ExpandVec3(ray->position), */
-    /*         ExpandVec3(ray->direction)); */
-    
-    double a = Vector3DotProduct(ray->direction, ray->direction);
+void set_sphere_material(Sphere * sphere, Material_t mat) {
+    sphere->material = mat;
+}
+
+double sphere_intersects_ray(Sphere sphere, Ray_t ray) {
+    double a = Vector3DotProduct(ray.direction, ray.direction);
     
     if (a == 0.0) {
         return INTERSECTION_NOT_FOUND;
     }
  
-    Vector3 cam_to_sphere = Vector3Subtract(sphere.position, ray->position);
+    Vector3 cam_to_sphere = Vector3Subtract(sphere.position, ray.position);
 
-    double h = Vector3DotProduct(ray->direction, cam_to_sphere);
+    double h = Vector3DotProduct(ray.direction, cam_to_sphere);
     double c = Vector3DotProduct(cam_to_sphere, cam_to_sphere) - sphere.radius * sphere.radius;
 
     double disc = h * h - a * c;
 
-    // if discriminant is 0 then the intersection point is a tangent
+    // if discriminant is 0 then the intersection point is a tangent and less than 0 means no intersection
     if (disc <= 0.0) {
         return INTERSECTION_NOT_FOUND;
     }
 
     double disc_sqrt = sqrt(disc);
-    double t1 = (h + disc_sqrt) / a,
-           t2 = (h - disc_sqrt) / a;
+    double t = (h - disc_sqrt) / a;
     
-    if (t2 >= 0.0 && t2 < t1) {
-        t1 = t2;
+    if (t < 0.0) {
+        t = (h + disc_sqrt) / a;
+        if (t < 0.0) {
+            return INTERSECTION_NOT_FOUND;
+        }
     }
 
-    if (t1 < 0.0) {
-        return INTERSECTION_NOT_FOUND;
-    }
-
-    return t1;
+    return t;
 }

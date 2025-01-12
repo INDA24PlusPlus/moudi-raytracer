@@ -7,6 +7,8 @@ typedef struct camera {
     double focal_length, FOV_y;
 
     Vector2 viewport;
+    Vector3 viewport_start, viewport_h, viewport_v;
+    Vector3 pixel_delta_h, pixel_delta_v;
 } Camera_t;
 
 Camera_t new_camera(double focal_length, double FOV_y);
