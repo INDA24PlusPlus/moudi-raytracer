@@ -38,6 +38,7 @@ void camera_update(Camera_t * camera) {
     camera->pixel_delta_v = Vector3Scale(camera->viewport_v, 1.0 / IMAGE_HEIGHT);
 
     Vector3 viewport_center = Vector3Add(camera->position, Vector3Scale(camera->normal, camera->focal_length));
-    Vector3 viewport_top_left = Vector3Scale(Vector3Add(camera->viewport_h, camera->viewport_v), -0.5);
-    camera->viewport_start = Vector3Add(viewport_center, viewport_top_left);
+    Vector3 offset_to_viewport_top_left = Vector3Scale(Vector3Add(camera->viewport_h, camera->viewport_v), -0.5);
+
+    camera->viewport_start = Vector3Add(viewport_center, offset_to_viewport_top_left);
 }

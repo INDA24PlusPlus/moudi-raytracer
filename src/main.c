@@ -31,11 +31,12 @@ int main() {
     }
 
     InitWindow(IMAGE_WIDTH, IMAGE_HEIGHT, "Raytracer");
-    init_scene(&scene, 90.0, 1.0);
-    /* camera_set_position(&scene.camera, Vec3(0.0, 0.0, 0.0)); */
+    init_scene(&scene, 60.0, 1.0);
+    camera_set_position(&scene.camera, Vec3(0.0, 0.0, -2.0));
+    camera_set_rotation(&scene.camera, Vec3(0.0, 0.0, 0.0));
 
     Sphere sphere = new_sphere(Vec3(0.0, 0.0, 1.0), 0.5);
-    set_sphere_material(&sphere, new_material(Vec3(0.1, 0.2, 0.5), 0.0));
+    set_sphere_material(&sphere, new_material(Vec3(0.1, 0.2, 0.5), 0.0, 0.0));
     add_object_to_scene(&scene, SPHERE, &sphere);
     
     /* Sphere big_sphere = new_sphere(Vec3(0.0, -100.5, 1.0), 100.0); */
@@ -43,17 +44,17 @@ int main() {
     /* add_object_to_scene(&scene, SPHERE, &big_sphere); */
 
     Sphere left_sphere = new_sphere(Vec3(-1.1, 0.0, 1.0), 0.5);
-    set_sphere_material(&left_sphere, new_material(Vec3(0.8, 0.8, 0.8), 1.0));
+    set_sphere_material(&left_sphere, new_material(Vec3(1.0, 1.0, 1.0), 0.0, 1.0 / 1.5));
     add_object_to_scene(&scene, SPHERE, &left_sphere);
     
     Sphere right_sphere = new_sphere(Vec3(1.1, 0.0, 1.0), 0.5);
-    set_sphere_material(&right_sphere, new_material(Vec3(0.8, 0.6, 0.2), 1.0));
+    set_sphere_material(&right_sphere, new_material(Vec3(0.8, 0.6, 0.2), 1.0, 0.0));
     add_object_to_scene(&scene, SPHERE, &right_sphere);
 
-    /* Plane ground = new_plane(Vec3(0.0, 1.0, 0.0), Vec3(10.0, 10.0, 0.0)); */
-    /* plane_set_rotation(&ground, Vec3(90.0, 0.0, 0.0)); */
-    /* plane_set_color(&ground, Vec3(100.0, 200.0, 100.0)); */
-    /* add_object_to_scene(&scene, PLANE, &ground); */
+    Plane ground = new_plane(Vec3(0.0, 0.5, 0.0), Vec3(10.0, 10.0, 0.0));
+    plane_set_material(&ground, new_material(Vec3(0.6, 1.0, 0.6), 0.0, 0.0));
+    plane_set_rotation(&ground, Vec3(90.0, 0.0, 0.0));
+    add_object_to_scene(&scene, PLANE, &ground);
 
     SetTargetFPS(60);
     SetExitKey(KEY_Q);

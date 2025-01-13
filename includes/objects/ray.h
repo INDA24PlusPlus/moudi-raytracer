@@ -16,6 +16,7 @@ struct hit_record {
     Vector3 normal;
     double t;
     Material_t material;
+    char front_face;
 };
 
 #include "scene.h"

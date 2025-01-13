@@ -16,9 +16,9 @@ Vector2 sample_square() {
 Ray_t get_ray(Camera_t * camera, size_t i, size_t j) {
     Vector2 offset = sample_square();
     Vector3 pixel_center =  Vector3Add(camera->viewport_start,
-                                Vector3Add(Vector3Scale(camera->pixel_delta_h, i + offset.x), Vector3Scale(camera->pixel_delta_v, j + offset.y))
-                            );
-    Vector3 ray_direction = Vector3Subtract(pixel_center, camera->position);
+                                Vector3Add(Vector3Scale(camera->pixel_delta_h, i + offset.x),
+                                            Vector3Scale(camera->pixel_delta_v, j + offset.y)));
+    Vector3 ray_direction = Vector3Normalize(Vector3Subtract(pixel_center, camera->position));
 
     return new_ray(camera->position, ray_direction);
 }
@@ -39,8 +39,11 @@ Vector3 ray_color(Scene * scene, Ray_t ray, size_t depth) {
     Hit_record rec = scene_find_ray_intersection(scene, ray);
 
     if (rec.t != INTERSECTION_NOT_FOUND) {
-        Ray_t scattered = material_scatter_ray(rec.material, ray, rec);
-        return Vector3Multiply(ray_color(scene, scattered, depth + 1), rec.material.albedo);
+        Ray_t scattered;
+        if (material_scatter_ray(rec.material, ray, rec, &scattered)) {
+            return Vector3Multiply(ray_color(scene, scattered, depth + 1), rec.material.albedo);
+        }
+        return Vector3Zero();
     }
 
     double a = 0.5 * (ray.direction.y + 1.0);

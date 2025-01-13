@@ -27,10 +27,6 @@ void plane_set_size(Plane * plane, Vector3 dimensions) {
     plane->dimensions = dimensions;
 }
 
-void plane_set_color(Plane * plane, Vector3 color) {
-    plane->color = color;
-}
-
 void plane_set_material(Plane * plane, Material_t mat) {
     plane->material = mat;
 }
@@ -57,7 +53,8 @@ double plane_intersects_ray(Plane plane, Ray_t ray) {
     Vector3 diff = Vector3Subtract(intersection_point, plane.position);
 
     // is not within the plane bounds
-    if (!(abs(diff.x) < plane.dimensions.x && abs(diff.y) < plane.dimensions.y)) {
+    if (!(-plane.dimensions.x <= diff.x && diff.x <= plane.dimensions.x) ||
+        !(-plane.dimensions.y <= diff.y && diff.y <= plane.dimensions.y)) {
         return INTERSECTION_NOT_FOUND;
     }
 

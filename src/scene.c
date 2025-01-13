@@ -22,7 +22,7 @@ void init_scene(Scene * scene, double FOV, double focal_length) {
 }
 
 void add_object_to_scene(Scene * scene, enum obj_type type, void * ptr) {
-    Object * object = malloc(sizeof(*object));
+    Object * object = (Object *) malloc(sizeof(*object));
     object->type = type;
 
     switch (type) {
@@ -55,8 +55,15 @@ Hit_record scene_find_ray_intersection(Scene * scene, Ray_t ray) {
     }
 
     rec.point = ray_at(ray, rec.t);
-    rec.normal = obj_get_normal(collision_obj, rec.point);
+    rec.normal = Vector3Normalize(obj_get_normal(collision_obj, rec.point));
     rec.material = obj_get_material(collision_obj);
+
+    if (Vector3DotProduct(ray.direction, rec.normal) > 0.0) {
+        rec.normal = Vector3Negate(rec.normal);
+        rec.front_face = 0;
+    } else {
+        rec.front_face = 1;
+    }
 
     return rec;
 }
@@ -69,6 +76,7 @@ void scene_render(Scene * scene) {
     for (size_t y = 0; y < IMAGE_HEIGHT; ++y) {
         atomic_store_explicit(&scene->rendering_progress, (100 * (y + 1) / IMAGE_HEIGHT), memory_order_relaxed);
         for (size_t x = 0; x < IMAGE_WIDTH; ++x) {
+
             Vector3 pixel_color = Vector3Zero();
             for (size_t sample = 0; sample < SAMPLES_PER_PIXEL; ++sample) {
                 Ray_t ray = get_ray(&scene->camera, x, y);

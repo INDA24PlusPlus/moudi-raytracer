@@ -9,4 +9,5 @@
 #define DEFAULT_VEC Vec3(0.0, 0.0, 1.0)
 
 Vector3 random_unit_vector();
-Vector3 hemisphere_random_vector(Vector3 normal);
+Vector3 vector_reflect(const Vector3 incoming, const Vector3 normal);
+Vector3 vector_refract(const Vector3 incoming, const Vector3 normal, double refract_coefficient);

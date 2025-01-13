@@ -23,7 +23,7 @@ void set_sphere_material(Sphere * sphere, Material_t mat) {
     sphere->material = mat;
 }
 
-double sphere_intersects_ray(Sphere sphere, Ray_t ray) {
+double sphere_intersects_ray(const Sphere sphere, const Ray_t ray) {
     double a = Vector3DotProduct(ray.direction, ray.direction);
     
     if (a == 0.0) {

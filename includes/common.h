@@ -12,8 +12,8 @@
 
 #define IMAGE_HEIGHT 450
 #define IMAGE_WIDTH 800
-#define SAMPLES_PER_PIXEL 200
-#define MAX_RAY_COLLISIONS 50
+#define SAMPLES_PER_PIXEL 100
+#define MAX_RAY_COLLISIONS 20
 #define T_MIN_CUTOFF 0.001
 
 #define COMPOSE(f, g) f(g)
