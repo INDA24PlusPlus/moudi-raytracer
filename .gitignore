@@ -1,12 +1,11 @@
 *
 
-!includes/
-!includes/*
-!includes/**
-
 !src/
 !src/*
-!src/**
+
+!raytracer-lib/
+!raytracer-lib/*
+!raytracer-lib/**
 
 !CMakeLists.txt
 !start.sh

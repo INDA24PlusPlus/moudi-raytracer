@@ -14,4 +14,4 @@ List new_list(size_t item_size);
 void list_push(List * list, void * item);
 void * list_pop(List * list);
 
-void * list_at(List list, size_t index);
+__device__ void * list_at(List list, size_t index);
